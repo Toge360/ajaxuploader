@@ -1,5 +1,5 @@
 // Ajax Uploader
-// V1.1
+// V1.0
 // Tobias Gerlach
 // tobias@gerlach360.de
 	
