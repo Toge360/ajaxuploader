@@ -12,32 +12,36 @@ function uploadFile(){
 	var allowedFormats = Array("image/jpeg", "application/pdf"); // erlaubte Formate
 	var allowedSize = 6000000; // erlaubte Größe
 	
-	// grab
-	var file = _("file1").files[0];
+	// grab Array
+	var filearray = _("files").files;
+	var arrayLength = filearray.length; // length
 	
-	if (file) {
+	// Loop Elements
+	for (var i = 0; i < arrayLength; i++) {
+		console.log(filearray[i]);
+		var file = filearray[i];
 		
-		//alert(file.name+" | "+file.size+" | "+file.type);
+		// Upload Routine
 		
 		// check Fileformat with Function below
-		if(allowedFormats.inArray(file.type)) {
-			// ist im Array
-		} else {
-			// Fehler: nicht im Array
-			error = true;
-			reason = 'Fehler. Die von Ihnen gewählte Datei ist vom falschen Typ. Es dürfen nur Dateien mit der Endung .jpg oder .pdf hochgeladen werden.';
-		}
+		//if(allowedFormats.inArray(file.type)) {
+			// ext okay
+		//} else {
+		//	// ext false
+		//	error = true;
+		//	reason = 'Fehler. Die von Ihnen gewählte Datei ist vom falschen Typ. Es dürfen nur Dateien mit der Endung .jpg oder .pdf hochgeladen werden.';
+		//}
 		
 		// check Filesize
 		if(file.size > allowedSize) {
-			// Fehler: zu groß
+			// filesize to big
 			error = true;
 			reason += ' Fehler. Die Dateigröße überschreitet das Maximum von 6 MB';
 		}
 		
 		if (!error) {
 			var formdata = new FormData();
-			formdata.append("file1", file);
+			formdata.append("files", file);
 			var ajax = new XMLHttpRequest();
 			ajax.upload.addEventListener("progress", progressHandler, false);
 			ajax.addEventListener("load", completeHandler, false);
@@ -49,11 +53,12 @@ function uploadFile(){
 			// Fehler Out
 			alert(reason);
 		}
-	} else {
-		// Keine Datei ausgewählt
-		alert("Fehler. Sie haben vergessen eine Datei auszuwählen.");
-	}
+		
+	} // Loop
 }
+
+	
+	
 
 function progressHandler(event){
 	
@@ -77,7 +82,4 @@ function errorHandler(event){
 function abortHandler(event){
 	_("status").innerHTML = "Upload Aborted";
 }
-
-// IN Array javascrip Function
-Array.prototype.inArray = function (value){var i;for (i=0; i < this.length; i++) {if (this[i] == value){return true;}}return false;};
 
